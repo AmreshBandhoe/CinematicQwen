@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { useRef } from 'react';
+import CinematicText from './CinematicText';
 
 const storyBlocks = [
   {
@@ -46,16 +47,10 @@ export default function StorySection() {
           >
             The Narrative
           </motion.span>
-          <motion.h2
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1, delay: 0.2 }}
+          <CinematicText
+            text="Three Acts of Visual Poetry"
             className="text-4xl md:text-6xl lg:text-7xl font-extralight text-cinema-light"
-          >
-            Three Acts of
-            <span className="block text-cinema-accent italic font-light">Visual Poetry</span>
-          </motion.h2>
+          />
         </div>
         
         {/* Story blocks */}

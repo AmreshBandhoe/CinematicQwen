@@ -92,8 +92,22 @@ export default function HeroSection() {
           transition={{ duration: 1.2, delay: 0.6, ease: [0.77, 0, 0.175, 1] }}
           className="text-6xl md:text-8xl lg:text-9xl font-extralight tracking-tight mb-8 glow-text"
         >
-          <span className="block text-cinema-light">Scroll</span>
-          <span className="block text-cinema-accent italic font-light">Storyboard</span>
+          <motion.span
+            className="block text-cinema-light overflow-hidden"
+            initial={{ y: "100%" }}
+            animate={loaded ? { y: 0 } : {}}
+            transition={{ duration: 1, delay: 0.7, ease: [0.77, 0, 0.175, 1] }}
+          >
+            Scroll
+          </motion.span>
+          <motion.span
+            className="block text-cinema-accent italic font-light overflow-hidden"
+            initial={{ y: "100%" }}
+            animate={loaded ? { y: 0 } : {}}
+            transition={{ duration: 1, delay: 0.9, ease: [0.77, 0, 0.175, 1] }}
+          >
+            Storyboard
+          </motion.span>
         </motion.h1>
 
         {/* Decorative line */}
