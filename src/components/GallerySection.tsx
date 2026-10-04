@@ -1,4 +1,4 @@
-import { motion, useInView, useScroll, useTransform } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
 
 const galleryItems = [
@@ -26,25 +26,31 @@ const galleryItems = [
 
 export default function GallerySection() {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"]
   });
 
-  const x = useTransform(scrollYProgress, [0, 1], [100, -100]);
+  const x = useTransform(scrollYProgress, [0, 1], [200, -200]);
 
   return (
     <section ref={ref} className="relative py-32 md:py-48 overflow-hidden">
       {/* Section divider */}
-      <div className="section-divider w-full mb-32" />
+      <motion.div
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.5 }}
+        className="section-divider w-full mb-32 origin-left"
+      />
 
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         {/* Section header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
           transition={{ duration: 1 }}
           className="mb-24"
         >
@@ -60,7 +66,7 @@ export default function GallerySection() {
         {/* Gallery grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
           {galleryItems.map((item, index) => (
-            <GalleryCard key={index} {...item} index={index} isInView={isInView} />
+            <GalleryCard key={index} {...item} index={index} />
           ))}
         </div>
 
@@ -78,55 +84,56 @@ export default function GallerySection() {
   );
 }
 
-function GalleryCard({ title, subtitle, image, index, isInView }: {
+function GalleryCard({ title, subtitle, image, index }: {
   title: string;
   subtitle: string;
   image: string;
   index: number;
-  isInView: boolean;
 }) {
-  const ref = useRef<HTMLDivElement>(null);
-
   return (
     <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 50 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, delay: 0.2 + index * 0.15 }}
-      className="group relative"
+      initial={{ opacity: 0, y: 60, scale: 0.95 }}
+      whileInView={{ opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.8, delay: 0.15 * index, ease: [0.25, 0.46, 0.45, 0.94] }}
+      whileHover={{ y: -8 }}
+      className="group relative cursor-pointer"
     >
       <div className="relative aspect-[4/3] rounded-lg overflow-hidden border border-cinema-accent/10">
         {/* Background image */}
-        <div 
-          className="absolute inset-0 bg-cover bg-center transition-transform duration-1000 group-hover:scale-110"
+        <motion.div 
+          initial={{ scale: 1.1 }}
+          whileInView={{ scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 1.5, delay: 0.15 * index }}
+          whileHover={{ scale: 1.08 }}
+          className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: `url('${image}')` }}
         />
         
         {/* Dark overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-cinema-black/90 via-cinema-black/40 to-transparent" />
         
-        {/* Geometric elements */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-700">
-          <motion.div
-            initial={{ rotate: 0 }}
-            whileInView={{ rotate: 360 }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-            className="w-24 h-24 md:w-32 md:h-32 border border-cinema-accent/20 rounded-full"
-          />
-        </div>
-
+        {/* Animated border glow on hover */}
+        <motion.div
+          className="absolute inset-0 border border-cinema-accent/0 group-hover:border-cinema-accent/30 transition-colors duration-500 rounded-lg"
+        />
+        
         {/* Content overlay */}
         <div className="absolute inset-0 p-8 flex flex-col justify-end">
-          <span className="text-cinema-accent/70 text-xs tracking-[0.2em] uppercase mb-2">
+          <motion.span
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 + 0.15 * index }}
+            className="text-cinema-accent/70 text-xs tracking-[0.2em] uppercase mb-2"
+          >
             {subtitle}
-          </span>
+          </motion.span>
           <h3 className="text-2xl md:text-3xl font-extralight text-cinema-light group-hover:text-cinema-accent transition-colors duration-500">
             {title}
           </h3>
         </div>
-
-        {/* Hover overlay */}
-        <div className="absolute inset-0 bg-cinema-accent/0 group-hover:bg-cinema-accent/5 transition-colors duration-500" />
       </div>
     </motion.div>
   );

@@ -1,4 +1,4 @@
-import { motion, useInView } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useRef } from 'react';
 
 const storyBlocks = [
@@ -26,11 +26,37 @@ export default function StorySection() {
   return (
     <section className="relative py-32 md:py-48">
       {/* Section divider */}
-      <div className="section-divider w-full mb-32" />
+      <motion.div
+        initial={{ scaleX: 0 }}
+        whileInView={{ scaleX: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1.5 }}
+        className="section-divider w-full mb-32 origin-left"
+      />
       
       <div className="max-w-7xl mx-auto px-6 md:px-12">
         {/* Section header */}
-        <SectionHeader />
+        <div className="mb-32">
+          <motion.span
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="text-cinema-accent text-sm tracking-[0.3em] uppercase block mb-4"
+          >
+            The Narrative
+          </motion.span>
+          <motion.h2
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1, delay: 0.2 }}
+            className="text-4xl md:text-6xl lg:text-7xl font-extralight text-cinema-light"
+          >
+            Three Acts of
+            <span className="block text-cinema-accent italic font-light">Visual Poetry</span>
+          </motion.h2>
+        </div>
         
         {/* Story blocks */}
         <div className="space-y-48 md:space-y-64">
@@ -43,33 +69,6 @@ export default function StorySection() {
   );
 }
 
-function SectionHeader() {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
-  return (
-    <div ref={ref} className="mb-32">
-      <motion.span
-        initial={{ opacity: 0, x: -20 }}
-        animate={isInView ? { opacity: 1, x: 0 } : {}}
-        transition={{ duration: 0.8 }}
-        className="text-cinema-accent text-sm tracking-[0.3em] uppercase block mb-4"
-      >
-        The Narrative
-      </motion.span>
-      <motion.h2
-        initial={{ opacity: 0, y: 30 }}
-        animate={isInView ? { opacity: 1, y: 0 } : {}}
-        transition={{ duration: 1, delay: 0.2 }}
-        className="text-4xl md:text-6xl lg:text-7xl font-extralight text-cinema-light"
-      >
-        Three Acts of
-        <span className="block text-cinema-accent italic font-light">Visual Poetry</span>
-      </motion.h2>
-    </div>
-  );
-}
-
 function StoryBlock({ number, title, text, align, index }: {
   number: string;
   title: string;
@@ -77,14 +76,12 @@ function StoryBlock({ number, title, text, align, index }: {
   align: 'left' | 'right';
   index: number;
 }) {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-
   return (
-    <div ref={ref} className={`flex flex-col ${align === 'right' ? 'md:items-end' : 'md:items-start'} items-start`}>
+    <div className={`flex flex-col ${align === 'right' ? 'md:items-end' : 'md:items-start'} items-start`}>
       <motion.div
-        initial={{ opacity: 0, x: align === 'left' ? -60 : 60 }}
-        animate={isInView ? { opacity: 1, x: 0 } : {}}
+        initial={{ opacity: 0, x: align === 'left' ? -80 : 80 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
         transition={{ duration: 1, ease: [0.77, 0, 0.175, 1] }}
         className={`max-w-xl ${align === 'right' ? 'md:text-right' : 'md:text-left'}`}
       >
@@ -101,9 +98,10 @@ function StoryBlock({ number, title, text, align, index }: {
         {/* Decorative line */}
         <motion.div
           initial={{ scaleX: 0 }}
-          animate={isInView ? { scaleX: 1 } : {}}
+          whileInView={{ scaleX: 1 }}
+          viewport={{ once: true }}
           transition={{ duration: 1.2, delay: 0.3 }}
-          className={`w-20 h-[1px] bg-cinema-accent mb-6 ${align === 'right' ? 'ml-auto' : ''}`}
+          className={`w-20 h-[1px] bg-cinema-accent mb-6 ${align === 'right' ? 'ml-auto' : ''} origin-left`}
         />
         
         {/* Text */}

@@ -8,11 +8,11 @@ export default function ParallaxSection() {
     offset: ["start end", "end start"]
   });
 
-  const y1 = useTransform(scrollYProgress, [0, 1], [100, -100]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [200, -200]);
-  const y3 = useTransform(scrollYProgress, [0, 1], [50, -50]);
-  const rotate = useTransform(scrollYProgress, [0, 1], [0, 5]);
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.9, 1, 0.95]);
+  const y1 = useTransform(scrollYProgress, [0, 1], [150, -150]);
+  const y2 = useTransform(scrollYProgress, [0, 1], [250, -250]);
+  const y3 = useTransform(scrollYProgress, [0, 1], [80, -80]);
+  const rotate = useTransform(scrollYProgress, [0, 1], [-5, 10]);
+  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.85, 1.05, 0.9]);
   const centerOpacity = useTransform(scrollYProgress, [0.2, 0.4, 0.6, 0.8], [0, 1, 1, 0]);
 
   return (
@@ -24,8 +24,22 @@ export default function ParallaxSection() {
           style={{ y: y2 }}
           className="absolute inset-0"
         >
-          <div className="absolute top-1/3 left-1/5 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-cinema-accent/5 to-transparent blur-[60px]" />
-          <div className="absolute bottom-1/4 right-1/5 w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-cinema-gold/5 to-transparent blur-[50px]" />
+          <motion.div
+            animate={{
+              scale: [1, 1.3, 1],
+              opacity: [0.3, 0.6, 0.3],
+            }}
+            transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-1/3 left-1/5 w-[500px] h-[500px] rounded-full bg-gradient-to-br from-cinema-accent/10 to-transparent blur-[60px]"
+          />
+          <motion.div
+            animate={{
+              scale: [1, 1.2, 1],
+              opacity: [0.2, 0.5, 0.2],
+            }}
+            transition={{ duration: 12, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+            className="absolute bottom-1/4 right-1/5 w-[400px] h-[400px] rounded-full bg-gradient-to-tl from-cinema-gold/10 to-transparent blur-[50px]"
+          />
         </motion.div>
 
         {/* Layer 2 - middle */}
@@ -33,8 +47,16 @@ export default function ParallaxSection() {
           style={{ y: y1 }}
           className="absolute inset-0"
         >
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-cinema-accent/10 rounded-full" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] border border-cinema-accent/5 rounded-full" />
+          <motion.div
+            animate={{ rotate: 360 }}
+            transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-cinema-accent/10 rounded-full"
+          />
+          <motion.div
+            animate={{ rotate: -360 }}
+            transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] border border-cinema-accent/5 rounded-full"
+          />
         </motion.div>
 
         {/* Layer 3 - front */}
@@ -44,18 +66,32 @@ export default function ParallaxSection() {
         >
           <div className="relative">
             {/* Central content */}
-            <div className="w-[300px] h-[300px] md:w-[500px] md:h-[500px] border border-cinema-accent/20 rounded-full flex items-center justify-center">
+            <motion.div
+              animate={{
+                boxShadow: [
+                  "0 0 0px rgba(201, 169, 110, 0)",
+                  "0 0 60px rgba(201, 169, 110, 0.1)",
+                  "0 0 0px rgba(201, 169, 110, 0)",
+                ],
+              }}
+              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+              className="w-[300px] h-[300px] md:w-[500px] md:h-[500px] border border-cinema-accent/20 rounded-full flex items-center justify-center"
+            >
               <div className="w-[200px] h-[200px] md:w-[350px] md:h-[350px] border border-cinema-accent/10 rounded-full flex items-center justify-center">
                 <div className="text-center">
                   <motion.p
                     style={{ opacity: centerOpacity }}
+                    animate={{
+                      scale: [1, 1.1, 1],
+                    }}
+                    transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                     className="text-cinema-accent text-6xl md:text-8xl font-extralight"
                   >
                     ∞
                   </motion.p>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </motion.div>
       </div>
@@ -65,18 +101,26 @@ export default function ParallaxSection() {
         style={{ y: y1 }}
         className="absolute top-1/4 left-12 md:left-24"
       >
-        <p className="text-cinema-warm/20 text-sm tracking-[0.2em] uppercase rotate-[-90deg] origin-left">
+        <motion.p
+          animate={{ opacity: [0.1, 0.3, 0.1] }}
+          transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
+          className="text-cinema-warm/20 text-sm tracking-[0.2em] uppercase rotate-[-90deg] origin-left"
+        >
           Infinite Possibilities
-        </p>
+        </motion.p>
       </motion.div>
 
       <motion.div
         style={{ y: y3 }}
         className="absolute bottom-1/4 right-12 md:right-24"
       >
-        <p className="text-cinema-warm/20 text-sm tracking-[0.2em] uppercase rotate-[90deg] origin-right">
+        <motion.p
+          animate={{ opacity: [0.1, 0.3, 0.1] }}
+          transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          className="text-cinema-warm/20 text-sm tracking-[0.2em] uppercase rotate-[90deg] origin-right"
+        >
           Boundless Creation
-        </p>
+        </motion.p>
       </motion.div>
 
       {/* Center text */}
