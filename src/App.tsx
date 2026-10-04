@@ -1,5 +1,6 @@
 import { useRef, useState, useCallback } from 'react';
 import { useScroll, useTransform, motion, AnimatePresence } from 'framer-motion';
+import { useLenis } from './hooks/useLenis';
 import HeroSection from './components/HeroSection';
 import StorySection from './components/StorySection';
 import ParallaxSection from './components/ParallaxSection';
@@ -24,6 +25,9 @@ export default function App() {
   const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: containerRef });
   const [loaded, setLoaded] = useState(false);
+
+  // Initialize Lenis smooth scroll
+  useLenis();
 
   const handleLoadComplete = useCallback(() => {
     setLoaded(true);
